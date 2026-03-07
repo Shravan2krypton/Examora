@@ -2,7 +2,7 @@ import express from 'express';
 import { authenticate, requireStudent, requireFaculty } from '../middleware/auth.js';
 import {
   getResults,
-  getResultById,
+  getResultDetail,
   getLeaderboard,
   getExamResults
 } from '../controllers/resultController.js';
@@ -10,7 +10,7 @@ import {
 const router = express.Router();
 
 router.get('/', authenticate, getResults);
-router.get('/:id', authenticate, getResultById);
+router.get('/:id', authenticate, getResultDetail);
 router.get('/leaderboard/:examId', authenticate, getLeaderboard);
 router.get('/exam/:examId', authenticate, requireFaculty, getExamResults);
 
