@@ -1,7 +1,7 @@
 import express from 'express';
 import { authenticate, requireStudent, requireFaculty } from '../middleware/auth.js';
 import {
-  getResults,
+  getResultsByStudent,
   getResultDetail,
   getLeaderboard,
   getExamResults
@@ -9,7 +9,7 @@ import {
 
 const router = express.Router();
 
-router.get('/', authenticate, getResults);
+router.get('/', authenticate, getResultsByStudent);
 router.get('/:id', authenticate, getResultDetail);
 router.get('/leaderboard/:examId', authenticate, getLeaderboard);
 router.get('/exam/:examId', authenticate, requireFaculty, getExamResults);
