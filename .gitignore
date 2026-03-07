@@ -11,6 +11,7 @@ backend/node_modules/
 .env.production.local
 frontend/.env.local
 backend/.env.local
+backend/.env
 
 # Build outputs
 dist/

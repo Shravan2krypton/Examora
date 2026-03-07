@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "https://your-backend-service.vercel.app/api/$1"
+    },
+    {
+      "src": "/uploads/(.*)",
+      "dest": "https://your-backend-service.vercel.app/uploads/$1"
+    },
+    {
+      "src": "/socket.io/(.*)",
+      "dest": "https://your-backend-service.vercel.app/socket.io/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/dist/$1"
+    }
+  ],
+  "env": {
+    "VITE_API_URL": "https://your-backend-service.vercel.app"
+  }
+}
