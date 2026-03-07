@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      String   // faculty | student
+  createdAt DateTime @default(now()) @map("created_at")
+
+  examsCreated      Exam[]         @relation("ExamCreator")
+  questionBanks     QuestionBank[] @relation("QuestionBankUploader")
+  studentResponses  StudentResponse[]
+  results           Result[]
+
+  @@map("users")
+}
+
+model Exam {
+  id              String   @id @default(cuid())
+  title           String
+  subject         String
+  timeLimit       Int      @map("time_limit") // minutes
+  totalQuestions  Int      @map("total_questions")
+  startDate       DateTime @map("start_date")
+  endDate         DateTime @map("end_date")
+  createdById     String   @map("created_by_id")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  createdBy       User              @relation("ExamCreator", fields: [createdById], references: [id], onDelete: Cascade)
+  questions       Question[]
+  studentResponses StudentResponse[]
+  results         Result[]
+
+  @@map("exams")
+}
+
+model Question {
+  id            String   @id @default(cuid())
+  examId        String   @map("exam_id")
+  questionText  String   @map("question_text")
+  optionA       String   @map("option_a")
+  optionB       String   @map("option_b")
+  optionC       String   @map("option_c")
+  optionD       String   @map("option_d")
+  correctAnswer String   @map("correct_answer") // a, b, c, or d
+
+  exam          Exam             @relation(fields: [examId], references: [id], onDelete: Cascade)
+  studentResponses StudentResponse[]
+
+  @@map("questions")
+}
+
+model StudentResponse {
+  id             String   @id @default(cuid())
+  studentId      String   @map("student_id")
+  examId         String   @map("exam_id")
+  questionId     String   @map("question_id")
+  selectedOption String   @map("selected_option") // a, b, c, or d
+
+  student User    @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  exam    Exam    @relation(fields: [examId], references: [id], onDelete: Cascade)
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, examId, questionId])
+  @@map("student_responses")
+}
+
+model Result {
+  id             String   @id @default(cuid())
+  studentId      String   @map("student_id")
+  examId         String   @map("exam_id")
+  score          Int
+  totalQuestions Int      @map("total_questions")
+  submissionTime DateTime @default(now()) @map("submission_time")
+
+  student User @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  exam    Exam @relation(fields: [examId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, examId])
+  @@map("results")
+}
+
+model QuestionBank {
+  id          String   @id @default(cuid())
+  subject     String
+  description String?
+  pdfUrl      String   @map("pdf_url")
+  uploadedById String  @map("uploaded_by_id")
+  uploadDate  DateTime @default(now()) @map("upload_date")
+
+  uploadedBy User @relation("QuestionBankUploader", fields: [uploadedById], references: [id], onDelete: Cascade)
+
+  @@map("question_banks")
+}
