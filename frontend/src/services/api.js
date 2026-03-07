@@ -1,13 +1,21 @@
 import axios from 'axios';
 
-// Determine if we're in production and set the correct base URL
-const isProduction = import.meta.env.PROD;
-const baseURL = isProduction 
-  ? 'https://online-exam-system-nikhil-tiwari-s-projects.vercel.app/api'
-  : '/api';
+// Get the correct backend URL based on environment
+const getBackendURL = () => {
+  // Check if we're in production
+  const isProduction = import.meta.env.PROD || import.meta.env.MODE === 'production';
+  
+  // List of possible backend URLs - update these with your actual deployed backend URL
+  const backendURLs = {
+    production: 'https://your-backend-url.vercel.app', // Replace with actual backend URL
+    development: '/api'
+  };
+  
+  return backendURLs[isProduction ? 'production' : 'development'];
+};
 
 const api = axios.create({
-  baseURL,
+  baseURL: getBackendURL(),
   headers: { 'Content-Type': 'application/json' },
 });
 
