@@ -1,62 +1,81 @@
-# Online Examination System
+# 🎓 Online Examination System
 
-A full-stack online exam platform built with React, Express, Node.js, and Neon PostgreSQL. Faculty can create exams and upload question banks; students take timed tests with automatic evaluation and real-time leaderboards.
+A modern, feature-rich online examination platform built with the MERN stack, enhanced with beautiful UI/UX animations and responsive design.
 
-## Tech Stack
+## ✨ Features
 
-- **Frontend**: React, TailwindCSS, React Router, Axios, Socket.io-client
-- **Backend**: Node.js, Express.js, JWT, bcrypt
-- **Database**: Neon PostgreSQL
-- **ORM**: Prisma
+### 🎯 Core Functionality
+- **Role-based Authentication** (Student/Faculty)
+- **Exam Creation & Management** with rich question banks
+- **Timed Exams** with auto-submit functionality
+- **Real-time Results** with instant evaluation
+- **Live Leaderboard** with Socket.io integration
+- **PDF Question Bank** upload and processing
+- **Comprehensive Analytics** and performance tracking
 
-## Setup
+### 🎨 Modern UI/UX Enhancements
+- **Glassmorphism Design** with backdrop blur effects
+- **Animated Components** using Framer Motion
+- **Responsive Layout** optimized for all devices
+- **Dark Mode Support** with smooth transitions
+- **Micro-interactions** and hover effects
+- **Loading States** and visual feedback
+- **Professional Color Scheme** with gradients
 
-### 1. Neon Database
+### 📱 Responsive Features
+- **Mobile-first Design** approach
+- **Touch-friendly Interactions**
+- **Adaptive Layouts** for desktop/tablet/mobile
+- **Optimized Animations** for performance
 
-1. Create a free account at [neon.tech](https://neon.tech)
-2. Create a new project and copy the connection string
-3. In `backend/.env`, set:
+## 🛠️ Tech Stack
+
+### Frontend
+- **React 18** with functional components and hooks
+- **React Router** for client-side routing
+- **TailwindCSS** for modern styling
+- **Framer Motion** for animations
+- **React Icons** for iconography
+- **Axios** for API communication
+- **Socket.io Client** for real-time features
+
+### Backend
+- **Node.js** with Express.js
+- **Prisma ORM** for database operations
+- **JWT Authentication** with role-based access
+- **Socket.io** for real-time communication
+- **Multer** for file uploads
+- **PDF Processing** for question banks
+
+### Database
+- **Neon PostgreSQL** for cloud database
+- **Schema** for users, exams, questions, results
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+- Git
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Shravan2krypton/Online-Exam-System.git
+   cd Online-Exam-System
    ```
-   DATABASE_URL="your-neon-connection-string"
-   JWT_SECRET="your-secret-key"
-   PORT=5000
+
+2. **Install dependencies**
+   ```bash
+   # Backend
+   cd backend
+   npm install
+   
+   # Frontend
+   cd frontend
+   npm install
    ```
-
-### 2. Backend
-
-```bash
-cd backend
-npm install
-npx prisma generate
-npx prisma db push
-npm run db:seed
-npm run dev
-```
-
-The seed creates a faculty account:
-- **Email**: faculty@exam.com
-- **Password**: faculty123
-
-### 3. Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Open http://localhost:3000
-
-## Demo Flow
-
-1. **Faculty**: Login with faculty@exam.com / faculty123
-2. Create an exam (title, subject, time limit, dates)
-3. Add questions with correct answers
-4. Upload a PDF question bank (optional)
-5. **Student**: Register a new account
-6. Take an exam (timer, auto-save answers, auto-submit when time ends)
-7. View results and leaderboard
-8. Leaderboard updates in real-time via Socket.io
 
 ## Features
 
