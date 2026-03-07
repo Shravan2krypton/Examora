@@ -1,11 +1,11 @@
-const express = require('express');
-const { authenticate, requireStudent, requireFaculty } = require('../middleware/auth.js');
-const {
+import express from 'express';
+import { authenticate, requireStudent, requireFaculty } from '../middleware/auth.js';
+import {
   getResults,
   getResultById,
   getLeaderboard,
   getExamResults
-} = require('../controllers/resultController.js');
+} from '../controllers/resultController.js';
 
 const router = express.Router();
 
@@ -14,4 +14,4 @@ router.get('/:id', authenticate, getResultById);
 router.get('/leaderboard/:examId', authenticate, getLeaderboard);
 router.get('/exam/:examId', authenticate, requireFaculty, getExamResults);
 
-module.exports = router;
+export default router;

@@ -1,11 +1,11 @@
-const express = require('express');
-const { authenticate, requireFaculty, requireStudent } = require('../middleware/auth.js');
-const {
+import express from 'express';
+import { authenticate, requireFaculty, requireStudent } from '../middleware/auth.js';
+import {
   createExam,
   getExams,
   getExamById,
   getExamForAttempt
-} = require('../controllers/examController.js');
+} from '../controllers/examController.js';
 
 const router = express.Router();
 
@@ -16,4 +16,4 @@ router.get('/:id', authenticate, getExamById);
 // For students to get exam for attempt (questions without correct answers)
 router.get('/:id/attempt', authenticate, requireStudent, getExamForAttempt);
 
-module.exports = router;
+export default router;

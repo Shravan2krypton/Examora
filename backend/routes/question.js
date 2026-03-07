@@ -1,11 +1,11 @@
-const express = require('express');
-const { authenticate, requireFaculty } = require('../middleware/auth.js');
-const {
+import express from 'express';
+import { authenticate, requireFaculty } from '../middleware/auth.js';
+import {
   createQuestion,
   getQuestions,
   updateQuestion,
   deleteQuestion
-} = require('../controllers/questionController.js');
+} from '../controllers/questionController.js';
 
 const router = express.Router();
 
@@ -14,4 +14,4 @@ router.get('/', authenticate, getQuestions);
 router.put('/:id', authenticate, requireFaculty, updateQuestion);
 router.delete('/:id', authenticate, requireFaculty, deleteQuestion);
 
-module.exports = router;
+export default router;

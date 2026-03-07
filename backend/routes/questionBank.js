@@ -1,13 +1,13 @@
-const express = require('express');
-const { authenticate, requireFaculty } = require('../middleware/auth.js');
-const multer = require('multer');
-const path = require('path');
-const {
+import express from 'express';
+import { authenticate, requireFaculty } from '../middleware/auth.js';
+import multer from 'multer';
+import path from 'path';
+import {
   uploadQuestions,
   getQuestionBanks,
   getQuestionBankById,
   deleteQuestionBank
-} = require('../controllers/questionBankController.js');
+} from '../controllers/questionBankController.js';
 
 const router = express.Router();
 
@@ -27,4 +27,4 @@ router.get('/', authenticate, getQuestionBanks);
 router.get('/:id', authenticate, getQuestionBankById);
 router.delete('/:id', authenticate, requireFaculty, deleteQuestionBank);
 
-module.exports = router;
+export default router;
