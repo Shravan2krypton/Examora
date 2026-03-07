@@ -17,10 +17,6 @@ dist/
 frontend/dist/
 build/
 
-# Vercel
-.vercel/
-frontend/.vercel/
-
 # Logs
 *.log
 npm-debug.log*
