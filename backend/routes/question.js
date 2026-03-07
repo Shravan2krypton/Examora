@@ -1,7 +1,7 @@
 import express from 'express';
 import { authenticate, requireFaculty } from '../middleware/auth.js';
 import {
-  createQuestion,
+  addQuestion,
   getQuestions,
   updateQuestion,
   deleteQuestion
@@ -9,7 +9,7 @@ import {
 
 const router = express.Router();
 
-router.post('/create', authenticate, requireFaculty, createQuestion);
+router.post('/create', authenticate, requireFaculty, addQuestion);
 router.get('/', authenticate, getQuestions);
 router.put('/:id', authenticate, requireFaculty, updateQuestion);
 router.delete('/:id', authenticate, requireFaculty, deleteQuestion);
