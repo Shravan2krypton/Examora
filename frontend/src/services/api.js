@@ -7,7 +7,7 @@ const getBackendURL = () => {
   
   // List of possible backend URLs - update these with your actual deployed backend URL
   const backendURLs = {
-    production: import.meta.env.VITE_API_URL || 'https://your-backend-name.vercel.app', // Replace with actual backend URL
+    production: import.meta.env.VITE_API_URL || 'https://test-system-smoky.vercel.app', // Your frontend URL (assuming same domain)
     development: '/api'
   };
   

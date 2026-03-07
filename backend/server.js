@@ -26,7 +26,14 @@ const app = express();
 const httpServer = createServer(app);
 
 // Middleware
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({
+  origin: [
+    'https://test-system-smoky.vercel.app', // Your actual frontend URL
+    'http://localhost:3000',
+    'http://localhost:3001'
+  ],
+  credentials: true
+}));
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
