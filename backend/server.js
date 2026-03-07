@@ -6,15 +6,6 @@ const cors = require('cors');
 const path = require('path');
 const { createServer } = require('http');
 
-const authRoutes = require('./routes/auth.js');
-const examRoutes = require('./routes/exam.js');
-const questionRoutes = require('./routes/question.js');
-const examAttemptRoutes = require('./routes/examAttempt.js');
-const resultRoutes = require('./routes/result.js');
-const questionBankRoutes = require('./routes/questionBank.js');
-
-const { initSocket } = require('./socket.js');
-
 // Database configuration
 const { Pool } = require('pg');
 
@@ -38,6 +29,13 @@ app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
+const authRoutes = require('./routes/auth.js');
+const examRoutes = require('./routes/exam.js');
+const questionRoutes = require('./routes/question.js');
+const examAttemptRoutes = require('./routes/examAttempt.js');
+const resultRoutes = require('./routes/result.js');
+const questionBankRoutes = require('./routes/questionBank.js');
+
 app.use('/api/auth', authRoutes);
 app.use('/api/exams', examRoutes);
 app.use('/api/questions', questionRoutes);
@@ -57,11 +55,27 @@ app.use((err, req, res, next) => {
   }
 });
 
-// Initialize Socket.io
-initSocket(httpServer);
+// Initialize Socket.io (simplified)
+const { Server } = require('socket.io');
+const io = new Server(httpServer, {
+  cors: {
+    origin: true,
+    credentials: true
+  }
+});
+
+io.on('connection', (socket) => {
+  socket.on('join-exam', (examId) => {
+    socket.join(`exam-${examId}`);
+  });
+
+  socket.on('leave-exam', (examId) => {
+    socket.leave(`exam-${examId}`);
+  });
+});
 
 const PORT = process.env.PORT || 5000;
 httpServer.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`Database URL: ${process.env.DATABASE_URL}`);
+  console.log(`Database URL: ${process.env.DATABASE_URL ? 'configured' : 'missing'}`);
 });
