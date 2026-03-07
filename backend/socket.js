@@ -1,28 +1,29 @@
-import { Server } from 'socket.io';
+const { Server } = require('socket.io');
 
 let io = null;
 
-export const initSocket = (httpServer) => {
-  io = new Server(httpServer, {
-    cors: {
-      origin: true,
-      credentials: true
-    }
-  });
-
-  io.on('connection', (socket) => {
-    socket.on('join-exam', (examId) => {
-      socket.join(`exam-${examId}`);
+module.exports = {
+  initSocket: (httpServer) => {
+    io = new Server(httpServer, {
+      cors: {
+        origin: true,
+        credentials: true
+      }
     });
 
-    socket.on('leave-exam', (examId) => {
-      socket.leave(`exam-${examId}`);
+    io.on('connection', (socket) => {
+      socket.on('join-exam', (examId) => {
+        socket.join(`exam-${examId}`);
+      });
+
+      socket.on('leave-exam', (examId) => {
+        socket.leave(`exam-${examId}`);
+      });
+
+      socket.on('disconnect', () => {});
     });
 
-    socket.on('disconnect', () => {});
-  });
-
-  return io;
+    return io;
+  },
+  getIO: () => io
 };
-
-export const getIO = () => io;

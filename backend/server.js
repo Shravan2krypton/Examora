@@ -1,20 +1,32 @@
-import 'dotenv/config';
-import express from 'express';
-import cors from 'cors';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { createServer } from 'http';
+const dotenv = require('dotenv');
+dotenv.config();
 
-import authRoutes from './routes/auth.js';
-import examRoutes from './routes/exam.js';
-import questionRoutes from './routes/question.js';
-import examAttemptRoutes from './routes/examAttempt.js';
-import resultRoutes from './routes/result.js';
-import questionBankRoutes from './routes/questionBank.js';
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const { createServer } = require('http');
 
-import { initSocket } from './socket.js';
+const authRoutes = require('./routes/auth.js');
+const examRoutes = require('./routes/exam.js');
+const questionRoutes = require('./routes/question.js');
+const examAttemptRoutes = require('./routes/examAttempt.js');
+const resultRoutes = require('./routes/result.js');
+const questionBankRoutes = require('./routes/questionBank.js');
 
-const __filename = fileURLToPath(import.meta.url);
+const { initSocket } = require('./socket.js');
+
+// Database configuration
+const { Pool } = require('pg');
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL, // Neon connection string from .env
+  ssl: {
+    rejectUnauthorized: false // Neon requires SSL
+  }
+});
+
+module.exports = pool;
+
 const __dirname = path.dirname(__filename);
 
 const app = express();
@@ -51,4 +63,5 @@ initSocket(httpServer);
 const PORT = process.env.PORT || 5000;
 httpServer.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(`Database URL: ${process.env.DATABASE_URL}`);
 });
