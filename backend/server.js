@@ -13,7 +13,10 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL, // Neon connection string from .env
   ssl: {
     rejectUnauthorized: false // Neon requires SSL
-  }
+  },
+  // Add connection timeout for serverless
+  connectionTimeoutMillis: 10000,
+  idleTimeoutMillis: 30000
 });
 
 module.exports = pool;
@@ -77,5 +80,6 @@ io.on('connection', (socket) => {
 const PORT = process.env.PORT || 5000;
 httpServer.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`Database URL: ${process.env.DATABASE_URL ? 'configured' : 'missing'}`);
+  console.log(`Database configured: ${process.env.DATABASE_URL ? 'YES' : 'NO'}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });
