@@ -1,14 +1,13 @@
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 dotenv.config();
 
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const { createServer } = require('http');
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import { createServer } from 'http';
+import { Pool } from 'pg';
 
 // Database configuration
-const { Pool } = require('pg');
-
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL, // Neon connection string from .env
   ssl: {
@@ -19,9 +18,9 @@ const pool = new Pool({
   idleTimeoutMillis: 30000
 });
 
-module.exports = pool;
+export default pool;
 
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 const app = express();
 const httpServer = createServer(app);
@@ -32,12 +31,12 @@ app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
-const authRoutes = require('./routes/auth.js');
-const examRoutes = require('./routes/exam.js');
-const questionRoutes = require('./routes/question.js');
-const examAttemptRoutes = require('./routes/examAttempt.js');
-const resultRoutes = require('./routes/result.js');
-const questionBankRoutes = require('./routes/questionBank.js');
+import authRoutes from './routes/auth.js';
+import examRoutes from './routes/exam.js';
+import questionRoutes from './routes/question.js';
+import examAttemptRoutes from './routes/examAttempt.js';
+import resultRoutes from './routes/result.js';
+import questionBankRoutes from './routes/questionBank.js';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/exams', examRoutes);
@@ -58,8 +57,8 @@ app.use((err, req, res, next) => {
   }
 });
 
-// Initialize Socket.io (simplified)
-const { Server } = require('socket.io');
+// Initialize Socket.io
+import { Server } from 'socket.io';
 const io = new Server(httpServer, {
   cors: {
     origin: true,
