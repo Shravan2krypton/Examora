@@ -1,7 +1,13 @@
 import axios from 'axios';
 
+// Determine if we're in production and set the correct base URL
+const isProduction = import.meta.env.PROD;
+const baseURL = isProduction 
+  ? 'https://online-exam-system-nikhil-tiwari-s-projects.vercel.app/api'
+  : '/api';
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL,
   headers: { 'Content-Type': 'application/json' },
 });
 

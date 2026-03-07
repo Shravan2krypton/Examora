@@ -19,5 +19,10 @@ export default defineConfig({
         ws: true
       }
     }
-  }
+  },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets'
+  },
+  base: '/'
 });
