@@ -6,6 +6,9 @@ import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import './index.css';
 
+// Check if we're loading from the login page
+const isFromLogin = !document.getElementById('root').hasChildNodes();
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>

@@ -1,21 +1,8 @@
 import axios from 'axios';
 
-// Get the correct backend URL based on environment
-const getBackendURL = () => {
-  // Check if we're in production
-  const isProduction = import.meta.env.PROD || import.meta.env.MODE === 'production';
-  
-  // List of possible backend URLs - update these with your actual deployed backend URL
-  const backendURLs = {
-    production: import.meta.env.VITE_API_URL || 'https://test-system-smoky.vercel.app', // Your frontend URL (assuming same domain)
-    development: '/api'
-  };
-  
-  return backendURLs[isProduction ? 'production' : 'development'];
-};
-
+// Use Vite proxy for API calls
 const api = axios.create({
-  baseURL: getBackendURL(),
+  baseURL: '/api',
   headers: { 'Content-Type': 'application/json' },
 });
 
@@ -31,7 +18,7 @@ api.interceptors.response.use(
     if (err.response?.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      window.location.href = '/login';
+      window.location.reload();
     }
     return Promise.reject(err);
   }

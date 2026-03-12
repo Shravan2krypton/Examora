@@ -30,6 +30,8 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
+    // Redirect to login page
+    window.location.reload();
   };
 
   return (

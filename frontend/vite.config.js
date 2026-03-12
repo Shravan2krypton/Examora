@@ -7,22 +7,13 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: process.env.VITE_API_URL || 'http://localhost:5000',
+        target: 'http://localhost:5000',
         changeOrigin: true
-      },
-      '/uploads': {
-        target: process.env.VITE_API_URL || 'http://localhost:5000',
-        changeOrigin: true
-      },
-      '/socket.io': {
-        target: process.env.VITE_API_URL || 'http://localhost:5000',
-        ws: true
       }
     }
   },
   build: {
-    outDir: 'dist',
-    assetsDir: 'assets'
+    outDir: 'dist'
   },
   base: '/'
 });

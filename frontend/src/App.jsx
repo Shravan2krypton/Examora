@@ -1,7 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
-import { useEffect } from 'react';
-import { testBackendConnection } from './test-connection';
 
 import Layout from './components/Layout';
 import Home from './pages/Home';
@@ -40,11 +38,6 @@ function ProtectedRoute({ children, role }) {
 }
 
 export default function App() {
-  useEffect(() => {
-    // Test backend connection on app load
-    testBackendConnection();
-  }, []);
-
   console.log('App component is rendering');
   return (
     <Routes>
