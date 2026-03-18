@@ -12,10 +12,7 @@ export default function AvailableExams() {
 
   const now = new Date();
   const availableExams = exams.filter(
-    (e) =>
-      new Date(e.startDate) <= now &&
-      new Date(e.endDate) >= now &&
-      e._count?.questions >= e.totalQuestions
+    (e) => !e.start_time || new Date(e.start_time) <= now
   );
 
   if (loading) {
@@ -47,9 +44,9 @@ export default function AvailableExams() {
             <div key={exam.id} className="card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-150">
               <div>
                 <h3 className="font-semibold text-lg">{exam.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400">{exam.subject}</p>
+                <p className="text-gray-600 dark:text-gray-400">{exam.description}</p>
                 <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">
-                  {exam.totalQuestions} questions • {exam.timeLimit} min
+                  Duration: {exam.duration} minutes
                 </p>
               </div>
               <Link

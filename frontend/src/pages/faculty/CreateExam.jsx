@@ -6,11 +6,9 @@ export default function CreateExam() {
   const navigate = useNavigate();
   const [form, setForm] = useState({
     title: '',
-    subject: '',
-    timeLimit: 30,
-    totalQuestions: 10,
-    startDate: '',
-    endDate: ''
+    description: '',
+    duration: 30,
+    createdById: 1 // Will be updated with actual user ID
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -26,6 +24,8 @@ export default function CreateExam() {
     setLoading(true);
     try {
       const { data } = await examAPI.create(form);
+      console.log('✅ Exam created:', data);
+      alert('Exam created successfully! You can now add questions to this exam.');
       navigate(`/faculty/exam/${data.id}/questions`);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to create exam');
@@ -60,64 +60,25 @@ export default function CreateExam() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Subject</label>
-            <input
-              type="text"
-              name="subject"
-              value={form.subject}
+            <label className="block text-sm font-medium mb-1">Description</label>
+            <textarea
+              name="description"
+              value={form.description}
               onChange={handleChange}
               className="input-field"
-              required
-              placeholder="e.g. Mathematics"
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Time Limit (minutes)</label>
-              <input
-                type="number"
-                name="timeLimit"
-                value={form.timeLimit}
-                onChange={handleChange}
-                className="input-field"
-                min="1"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Total Questions</label>
-              <input
-                type="number"
-                name="totalQuestions"
-                value={form.totalQuestions}
-                onChange={handleChange}
-                className="input-field"
-                min="1"
-                required
-              />
-            </div>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Start Date & Time</label>
-            <input
-              type="datetime-local"
-              name="startDate"
-              value={form.startDate}
-              onChange={handleChange}
-              className="input-field"
-              min={today}
-              required
+              rows="3"
+              placeholder="Enter exam description"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">End Date & Time</label>
+            <label className="block text-sm font-medium mb-1">Duration (minutes)</label>
             <input
-              type="datetime-local"
-              name="endDate"
-              value={form.endDate}
+              type="number"
+              name="duration"
+              value={form.duration}
               onChange={handleChange}
               className="input-field"
-              min={form.startDate || today}
+              min="1"
               required
             />
           </div>

@@ -1,6 +1,32 @@
 # 🎓 Online Examination System
 
-A modern, feature-rich online examination platform built with the MERN stack, enhanced with beautiful UI/UX animations and responsive design.
+A modern, feature-rich online examination platform built with MERN stack, enhanced with beautiful UI/UX animations and responsive design.
+
+## 📜 License
+
+```
+MIT License
+
+Copyright (c) 2024 Examora
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+```
 
 ## ✨ Features
 
@@ -9,7 +35,7 @@ A modern, feature-rich online examination platform built with the MERN stack, en
 - **Exam Creation & Management** with rich question banks
 - **Timed Exams** with auto-submit functionality
 - **Real-time Results** with instant evaluation
-- **Live Leaderboard** with Socket.io integration
+- **Live Leaderboard** with real-time updates
 - **PDF Question Bank** upload and processing
 - **Comprehensive Analytics** and performance tracking
 
@@ -19,8 +45,8 @@ A modern, feature-rich online examination platform built with the MERN stack, en
 - **Responsive Layout** optimized for all devices
 - **Dark Mode Support** with smooth transitions
 - **Micro-interactions** and hover effects
-- **Loading States** and visual feedback
 - **Professional Color Scheme** with gradients
+- **Loading States** and visual feedback
 
 ### 📱 Responsive Features
 - **Mobile-first Design** approach
@@ -37,19 +63,20 @@ A modern, feature-rich online examination platform built with the MERN stack, en
 - **Framer Motion** for animations
 - **React Icons** for iconography
 - **Axios** for API communication
-- **Socket.io Client** for real-time features
 
 ### Backend
 - **Node.js** with Express.js
-- **Prisma ORM** for database operations
+- **PostgreSQL** with Neon cloud database
 - **JWT Authentication** with role-based access
-- **Socket.io** for real-time communication
 - **Multer** for file uploads
 - **PDF Processing** for question banks
+- **Socket.io** for real-time communication
 
 ### Database
 - **Neon PostgreSQL** for cloud database
 - **Schema** for users, exams, questions, results
+- **Migrations** for database structure
+- **Connection Pooling** for performance
 
 ## 🚀 Quick Start
 
@@ -77,35 +104,308 @@ A modern, feature-rich online examination platform built with the MERN stack, en
    npm install
    ```
 
-## Features
+3. **Environment Setup**
+   ```bash
+   # Backend .env
+   PORT=5000
+   DATABASE_URL=your_neon_database_url
+   JWT_SECRET=your_jwt_secret
+   FRONTEND_URL=http://localhost:3000
+   NODE_ENV=development
+   
+   # Frontend .env
+   VITE_API_URL=http://localhost:5000/api
+   ```
 
+4. **Run the application**
+   ```bash
+   # Backend (Terminal 1)
+   cd backend
+   npm start
+   
+   # Frontend (Terminal 2)
+   cd frontend
+   npm run dev
+   ```
+
+## 🎯 Features
+
+### Authentication
 - JWT authentication with role-based access (Faculty / Student)
-- Timed exams with countdown and 1-minute warning
-- Auto-submit when time expires
+- Secure password hashing with bcrypt
+- Session management with token expiration
+- Protected routes with middleware
+
+### Exam Management
+- Create exams with title, description, duration
+- Add single or bulk questions
+- Multiple choice questions (A, B, C, D)
+- Question bank PDF upload and parsing
+- Exam scheduling and availability
+
+### Student Experience
+- View available exams with filtering
+- Timed exam interface with countdown
+- Real-time answer saving
+- Auto-submit when timer expires
 - Instant score calculation
-- Real-time leaderboard (Socket.io)
-- Question bank PDF upload and viewing
-- Dark mode
-- Mobile responsive
+- Detailed results and analytics
 
-## API Endpoints
+### Faculty Experience
+- Exam creation wizard
+- Question management interface
+- Bulk question import
+- PDF upload and processing
+- Student results monitoring
+- Performance analytics
 
+### UI/UX Features
+- Modern glassmorphism design
+- Smooth animations and transitions
+- Dark mode support
+- Mobile responsive layout
+- Loading states and feedback
+- Interactive components
+- Professional color scheme
+
+## 📚 API Documentation
+
+### Authentication Endpoints
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | /api/auth/login | Login |
-| POST | /api/auth/register | Student registration |
+| POST | /api/auth/login | User login |
+| POST | /api/auth/register | User registration |
+| GET | /api/health | Health check |
+
+### Exam Management Endpoints
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /api/exams | List all exams |
 | POST | /api/exams/create | Create exam (Faculty) |
-| GET | /api/exams | List exams |
-| GET | /api/exams/:id | Get exam |
-| GET | /api/exams/:id/attempt | Get exam for attempt (Student) |
-| POST | /api/questions/add | Add question |
-| POST | /api/questions/add-bulk | Add bulk questions |
-| GET | /api/questions/:examId | Get questions |
-| POST | /api/exam/start | Start exam |
+| GET | /api/exams/:id | Get exam details |
+| POST | /api/exam/start | Start exam (Student) |
 | POST | /api/exam/save-answer | Save answer |
 | POST | /api/exam/submit | Submit exam |
-| GET | /api/results/student/:id | Student results |
-| GET | /api/results/detail/:examId | Result detail |
-| GET | /api/results/leaderboard/:examId | Leaderboard |
+
+### Question Management Endpoints
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /api/questions/:examId | Get exam questions |
+| POST | /api/questions/add | Add single question |
+| POST | /api/questions/add-bulk | Add bulk questions |
+
+### Question Bank Endpoints
+| Method | Endpoint | Description |
+|--------|----------|-------------|
 | POST | /api/questionbank/upload | Upload PDF |
 | GET | /api/questionbank | List question banks |
+
+### Results Endpoints
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /api/results/student/:id | Student results |
+| GET | /api/results/detail/:examId | Result details |
+
+## 🗄️ Database Schema
+
+### Users Table
+```sql
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  role VARCHAR(50) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### Exams Table
+```sql
+CREATE TABLE exams (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  duration INTEGER NOT NULL,
+  start_time TIMESTAMP,
+  end_time TIMESTAMP,
+  created_by_id INTEGER REFERENCES users(id),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### Questions Table
+```sql
+CREATE TABLE questions (
+  id SERIAL PRIMARY KEY,
+  exam_id INTEGER REFERENCES exams(id),
+  question_text TEXT NOT NULL,
+  option_a TEXT NOT NULL,
+  option_b TEXT NOT NULL,
+  option_c TEXT NOT NULL,
+  option_d TEXT NOT NULL,
+  correct_answer VARCHAR(1) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### Results Table
+```sql
+CREATE TABLE results (
+  id SERIAL PRIMARY KEY,
+  exam_id INTEGER REFERENCES exams(id),
+  student_id INTEGER REFERENCES users(id),
+  score INTEGER NOT NULL,
+  total_questions INTEGER NOT NULL,
+  percentage DECIMAL(5,2) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+## 🧪 Testing
+
+### Test Accounts
+- **Student**: student@example.com / test123
+- **Faculty**: faculty@example.com / test123
+
+### Test Scenarios
+1. User registration and login
+2. Exam creation by faculty
+3. Question addition (single and bulk)
+4. PDF upload for question banks
+5. Exam taking by students
+6. Results viewing and analytics
+
+## 📱 Mobile Compatibility
+
+- Responsive design for all screen sizes
+- Touch-friendly interactions
+- Optimized animations for mobile
+- Adaptive layouts for tablets
+- Progressive enhancement approach
+
+## 🔒 Security Features
+
+- JWT token-based authentication
+- Password hashing with bcrypt
+- Role-based access control
+- Input validation and sanitization
+- CORS configuration
+- SQL injection prevention
+
+## 🎨 Customization
+
+### Color Scheme
+- Primary: Indigo (#6366F1)
+- Secondary: Purple (#9333EA)
+- Success: Green (#10B981)
+- Warning: Red (#EF4444)
+- Info: Blue (#3B82F6)
+
+### Typography
+- Inter font family
+- Responsive font sizes
+- Accessible color contrast
+- Clear hierarchy
+
+## 🚀 Deployment
+
+### Environment Variables
+```bash
+# Production
+NODE_ENV=production
+DATABASE_URL=your_production_neon_url
+JWT_SECRET=your_production_jwt_secret
+FRONTEND_URL=https://yourdomain.com
+
+# Development
+NODE_ENV=development
+DATABASE_URL=your_development_neon_url
+JWT_SECRET=your_development_jwt_secret
+FRONTEND_URL=http://localhost:3000
+```
+
+### Build Process
+```bash
+# Frontend Build
+cd frontend
+npm run build
+
+# Backend Production
+cd backend
+npm start
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📞 Support
+
+For support, please email: support@examora.com
+
+## 📊 Performance
+
+- Optimized database queries
+- Efficient state management
+- Lazy loading for components
+- Code splitting for routes
+- Image optimization
+- Caching strategies
+
+## 🔮 Roadmap
+
+### Version 2.0
+- [ ] Advanced analytics dashboard
+- [ ] Proctoring features
+- [ ] Video integration
+- [ ] Advanced question types
+- [ ] Bulk operations
+- [ ] API rate limiting
+- [ ] Email notifications
+
+### Version 2.1
+- [ ] Mobile app
+- [ ] Offline mode
+- [ ] Advanced reporting
+- [ ] Integration with LMS
+- [ ] AI-powered features
+
+## 📈 Analytics
+
+- Track exam completion rates
+- Monitor student performance
+- Analyze question difficulty
+- Measure time spent
+- Success rate metrics
+
+## 🌐 Browser Support
+
+- Chrome 90+
+- Firefox 88+
+- Safari 14+
+- Edge 90+
+- Mobile browsers (iOS Safari, Android Chrome)
+
+## 📝 Changelog
+
+### v1.0.0 (2024-03-18)
+- ✅ Initial release
+- ✅ Basic authentication system
+- ✅ Exam creation and management
+- ✅ Question bank functionality
+- ✅ Real-time results
+- ✅ Responsive design
+- ✅ PDF upload support
+- ✅ Dark mode support
+- ✅ Modern UI/UX
+
+---
+
+**Built with ❤️ by the Examora Team**
