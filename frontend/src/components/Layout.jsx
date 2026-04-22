@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Outlet, Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { motion } from 'framer-motion';
 
 export default function Layout() {
   const { user, logout } = useAuth();
@@ -19,7 +20,7 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
-      <nav className="bg-white/90 dark:bg-gray-900/90 backdrop-blur border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
+      <nav className="glass-effect border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center gap-3 sm:gap-6">
@@ -47,6 +48,7 @@ export default function Layout() {
                   <>
                     <NavLink
                       to="/student"
+                      end
                       className={({ isActive }) =>
                         `${linkBase} ${isActive ? linkActive : linkInactive}`
                       }
@@ -83,6 +85,7 @@ export default function Layout() {
                   <>
                     <NavLink
                       to="/faculty"
+                      end
                       className={({ isActive }) =>
                         `${linkBase} ${isActive ? linkActive : linkInactive}`
                       }
@@ -112,10 +115,16 @@ export default function Layout() {
             <div className="flex items-center gap-2 sm:gap-4">
               <button
                 onClick={toggleDarkMode}
-                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-xl"
+                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-xl hover-lift transition-all duration-200"
                 aria-label="Toggle dark mode"
+                title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
               >
-                {darkMode ? '☀️' : '🌙'}
+                <motion.div
+                  whileHover={{ rotate: 180 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {darkMode ? '☀️' : '🌙'}
+                </motion.div>
               </button>
               <button
                 className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
@@ -162,6 +171,7 @@ export default function Layout() {
                 <>
                   <NavLink
                     to="/student"
+                    end
                     onClick={closeMobile}
                     className={({ isActive }) =>
                       `${linkBase} ${isActive ? linkActive : linkInactive}`
@@ -202,6 +212,7 @@ export default function Layout() {
                 <>
                   <NavLink
                     to="/faculty"
+                    end
                     onClick={closeMobile}
                     className={({ isActive }) =>
                       `${linkBase} ${isActive ? linkActive : linkInactive}`
@@ -267,8 +278,33 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      <footer className="bg-gray-100 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-4 text-center text-sm text-gray-600 dark:text-gray-400">
-        Online Examination System &copy; {new Date().getFullYear()}
+      <footer className="glass-effect border-t border-gray-200 dark:border-gray-700 py-6 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="text-center md:text-left">
+              <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">
+                Examora - Online Examination System
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                &copy; {new Date().getFullYear()} All rights reserved
+              </p>
+            </div>
+            <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+              <span className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors cursor-pointer">
+                About
+              </span>
+              <span className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors cursor-pointer">
+                Privacy
+              </span>
+              <span className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors cursor-pointer">
+                Terms
+              </span>
+              <span className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors cursor-pointer">
+                Contact
+              </span>
+            </div>
+          </div>
+        </div>
       </footer>
     </div>
   );
