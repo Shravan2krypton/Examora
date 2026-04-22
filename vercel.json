@@ -1,9 +1,9 @@
 {
+  "outputDirectory": "frontend/dist",
   "experimentalServices": {
     "frontend": {
       "routePrefix": "/",
-      "framework": "vite",
-      "outputDirectory": "frontend/dist"
+      "framework": "vite"
     },
     "backend": {
       "entrypoint": "backend",
