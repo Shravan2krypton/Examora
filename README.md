@@ -349,13 +349,7 @@ CREATE TABLE results (
    vercel --prod
    ```
 
-2. **Environment Variables on Vercel**
-   ```bash
-   DATABASE_URL=postgresql://neondb_owner:npg_dCP5xmRl8tJg@ep-winter-credit-an6ufc4n-pooler.c-6.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
-   JWT_SECRET=online_exam_system_2024_secure_key_for_authentication
-   FRONTEND_URL=https://your-app-name.vercel.app
-   NODE_ENV=production
-   ```
+
 
 ### Manual Deployment
 
