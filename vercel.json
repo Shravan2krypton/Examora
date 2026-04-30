@@ -3,9 +3,7 @@
   "outputDirectory": "frontend/dist",
   "installCommand": "cd frontend && npm install && cd ../backend && npm install",
   "functions": {
-    "api/index.js": {
-      "runtime": "@vercel/node"
-    }
+    "api/index.js": {}
   },
   "rewrites": [
     {
