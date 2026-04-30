@@ -11,6 +11,9 @@
     },
     "api/seed.js": {
       "maxDuration": 10
+    },
+    "api/test.js": {
+      "maxDuration": 10
     }
   },
   "rewrites": [
@@ -31,7 +34,11 @@
       "destination": "/api/seed.js"
     },
     {
-      "source": "/(.*)",
+      "source": "/test",
+      "destination": "/api/test.js"
+    },
+    {
+      "source": "/((?!api|uploads|health|seed|test).*)",
       "destination": "/frontend/$1"
     }
   ]
