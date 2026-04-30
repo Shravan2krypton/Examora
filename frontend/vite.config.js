@@ -15,5 +15,5 @@ export default defineConfig({
   build: {
     outDir: 'dist'
   },
-  base: '/'
+  base: import.meta.env.VITE_BASE_URL || '/'
 });
