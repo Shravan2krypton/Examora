@@ -1,8 +1,9 @@
 export default async function handler(req, res) {
   try {
     res.json({ 
-      message: 'API is working',
+      message: 'Test endpoint is working',
       method: req.method,
+      url: req.url,
       timestamp: new Date().toISOString()
     });
   } catch (error) {

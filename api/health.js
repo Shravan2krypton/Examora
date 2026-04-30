@@ -1,23 +1,17 @@
-import { pool } from '../backend/config/database.js';
-
 export default async function handler(req, res) {
   try {
-    // Test database connection
-    const result = await pool.query('SELECT NOW()');
-    
-    // Check if users exist
-    const userCount = await pool.query('SELECT COUNT(*) FROM users');
-    
+    // Basic health check without database dependency
     res.json({
       status: 'OK',
-      database: 'Connected',
-      timestamp: result.rows[0].now,
-      userCount: parseInt(userCount.rows[0].count)
+      message: 'Serverless function is working',
+      method: req.method,
+      timestamp: new Date().toISOString(),
+      headers: req.headers
     });
   } catch (error) {
     console.error('Health check error:', error);
     res.status(500).json({ 
-      error: 'Database connection failed',
+      error: 'Health check failed',
       details: error.message 
     });
   }
