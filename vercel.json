@@ -5,6 +5,12 @@
   "functions": {
     "api/index.js": {
       "maxDuration": 30
+    },
+    "api/health.js": {
+      "maxDuration": 10
+    },
+    "api/seed.js": {
+      "maxDuration": 10
     }
   },
   "rewrites": [
@@ -15,6 +21,14 @@
     {
       "source": "/uploads/(.*)",
       "destination": "/api/index.js"
+    },
+    {
+      "source": "/health",
+      "destination": "/api/health.js"
+    },
+    {
+      "source": "/seed",
+      "destination": "/api/seed.js"
     },
     {
       "source": "/(.*)",
