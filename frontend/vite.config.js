@@ -15,5 +15,5 @@ export default defineConfig({
   build: {
     outDir: 'dist'
   },
-  base: import.meta.env.VITE_BASE_URL || '/'
+  base: process.env.NODE_ENV === 'production' ? '/' : (import.meta.env.VITE_BASE_URL || '/')
 });
