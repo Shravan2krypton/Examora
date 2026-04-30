@@ -55,14 +55,14 @@ export default function AttemptExam() {
     if (submitting) return;
     setSubmitting(true);
     try {
-      await examAttemptAPI.submit(examId);
+      await examAttemptAPI.submit(examId, answers);
       navigate(`/student/results/${examId}`);
     } catch (err) {
       alert(err.response?.data?.error || 'Submit failed');
     } finally {
       setSubmitting(false);
     }
-  }, [examId, navigate]);
+  }, [examId, navigate, answers]);
 
   useEffect(() => {
     loadExam();

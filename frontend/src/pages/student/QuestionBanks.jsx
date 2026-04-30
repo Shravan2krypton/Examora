@@ -36,26 +36,34 @@ export default function QuestionBanks() {
           {banks.map((qb) => (
             <div key={qb.id} className="card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
-                <h3 className="font-semibold text-lg">{qb.subject}</h3>
+                <h3 className="font-semibold text-lg">{qb.title}</h3>
                 {qb.description && (
                   <p className="text-gray-600 dark:text-gray-400 mt-1">{qb.description}</p>
                 )}
                 <p className="text-sm text-gray-500 mt-1">
-                  Uploaded by {qb.uploadedBy?.name} • {new Date(qb.uploadDate).toLocaleDateString()}
+                  Uploaded by Faculty • {new Date(qb.created_at).toLocaleDateString()}
                 </p>
               </div>
               <div className="flex gap-2">
                 <button
                   type="button"
                   onClick={() =>
-                    setActivePdf({ url: getPdfUrl(qb.pdfUrl), subject: qb.subject })
+                    setActivePdf({ url: `http://localhost:5000/uploads/${qb.file_path?.split('\\').pop() || qb.file_path}`, subject: qb.title })
                   }
                   className="btn-primary"
                 >
                   View PDF
                 </button>
                 <a
-                  href={getPdfUrl(qb.pdfUrl)}
+                  href={`http://localhost:5000/uploads/${qb.file_path?.split('\\').pop() || qb.file_path}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-secondary"
+                >
+                  Open in New Tab
+                </a>
+                <a
+                  href={`http://localhost:5000/uploads/${qb.file_path?.split('\\').pop() || qb.file_path}`}
                   download
                   className="btn-secondary"
                 >
@@ -74,9 +82,10 @@ export default function QuestionBanks() {
         {activePdf && (
           <div className="h-[70vh] sm:h-[75vh] rounded-lg overflow-hidden border border-gray-200 dark:border-gray-800 bg-gray-900">
             <iframe
-              src={activePdf.url}
+              src={`${activePdf.url}#toolbar=0&navpanes=0&scrollbar=0`}
               title={activePdf.subject}
               className="w-full h-full"
+              sandbox="allow-same-origin allow-scripts"
             />
           </div>
         )}

@@ -3,7 +3,7 @@ import { questionBankAPI } from '../../services/api';
 import Modal from '../../components/Modal';
 
 export default function UploadQuestionBank() {
-  const [subject, setSubject] = useState('');
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -31,12 +31,12 @@ export default function UploadQuestionBank() {
     setLoading(true);
     try {
       const formData = new FormData();
-      formData.append('subject', subject);
+      formData.append('title', title);
       formData.append('description', description);
       formData.append('pdf', file);
       await questionBankAPI.upload(formData);
       setSuccess('Question bank uploaded successfully.');
-      setSubject('');
+      setTitle('');
       setDescription('');
       setFile(null);
       document.getElementById('pdf-input').value = '';
@@ -65,11 +65,11 @@ export default function UploadQuestionBank() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="sm:col-span-1">
-              <label className="block text-sm font-medium mb-1">Subject</label>
+              <label className="block text-sm font-medium mb-1">Title</label>
               <input
                 type="text"
-                value={subject}
-                onChange={(e) => setSubject(e.target.value)}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 className="input-field"
                 required
                 placeholder="e.g. Mathematics"
@@ -124,12 +124,12 @@ export default function UploadQuestionBank() {
             {banks.map((qb) => (
               <div key={qb.id} className="card flex justify-between items-center">
                 <div>
-                  <h3 className="font-medium">{qb.subject}</h3>
+                  <h3 className="font-medium">{qb.title}</h3>
                   {qb.description && <p className="text-sm text-gray-500">{qb.description}</p>}
                 </div>
                 <button
                   type="button"
-                  onClick={() => setActivePdf({ url: qb.pdfUrl, subject: qb.subject })}
+                  onClick={() => setActivePdf({ url: `http://localhost:5000/uploads/${qb.file_path?.split('\\').pop() || qb.file_path}`, subject: qb.title })}
                   className="btn-secondary text-sm"
                 >
                   Preview
@@ -149,9 +149,10 @@ export default function UploadQuestionBank() {
         {activePdf && (
           <div className="h-[70vh] sm:h-[75vh] rounded-lg overflow-hidden border border-gray-200 dark:border-gray-800 bg-gray-900">
             <iframe
-              src={activePdf.url}
+              src={`${activePdf.url}#toolbar=0&navpanes=0&scrollbar=0`}
               title={activePdf.subject}
               className="w-full h-full"
+              sandbox="allow-same-origin allow-scripts"
             />
           </div>
         )}

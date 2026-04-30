@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Use Vite proxy for local development, /_/backend for Vercel production
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/_/backend/api',
+  baseURL: import.meta.env.VITE_API_URL || '/api',
   headers: { 'Content-Type': 'application/json' },
 });
 
@@ -46,7 +46,7 @@ export const examAttemptAPI = {
   start: (examId) => api.post('/exam/start', { examId }),
   saveAnswer: (examId, questionId, selectedOption) =>
     api.post('/exam/save-answer', { examId, questionId, selectedOption }),
-  submit: (examId) => api.post('/exam/submit', { examId }),
+  submit: (examId, answers) => api.post('/exam/submit', { examId, answers }),
 };
 
 export const resultAPI = {
