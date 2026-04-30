@@ -4,7 +4,7 @@
   "installCommand": "cd frontend && npm install && cd ../backend && npm install",
   "functions": {
     "api/index.js": {
-      "runtime": "nodejs18.x"
+      "runtime": "@vercel/node"
     }
   },
   "rewrites": [
