@@ -1,6 +1,19 @@
-# 🎓 Online Examination System
+# 🎓 Examora - Online Examination System
+
+<div align="center">
+
+![Examora Logo](https://img.shields.io/badge/Examora-Online%20Exams-blue?style=for-the-badge&logo=education)
 
 A modern, feature-rich online examination platform built with MERN stack, enhanced with beautiful UI/UX animations and responsive design.
+
+[🚀 Live Demo](https://examora-puce.vercel.app/) • [📖 Documentation](#-readme) • [⭐ Star](https://github.com/Shravan2krypton/Examora) • [🍴 Fork](https://github.com/Shravan2krypton/Examora/fork)
+
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+
+</div>
 
 ## 📜 License
 
@@ -78,19 +91,28 @@ DEALINGS IN THE SOFTWARE.
 - **Migrations** for database structure
 - **Connection Pooling** for performance
 
+## 🚀 Live Demo
+
+**🌐 Try Examora Now:** [https://examora-puce.vercel.app/](https://examora-puce.vercel.app/)
+
+### Test Credentials
+- **Faculty Login:** `faculty@test.com` / `test123456`
+- **Student Login:** `student@test.com` / `test123456`
+
 ## 🚀 Quick Start
 
 ### Prerequisites
 - Node.js 18+
 - npm or yarn
 - Git
+- PostgreSQL (Neon recommended)
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Shravan2krypton/Online-Exam-System.git
-   cd Online-Exam-System
+   git clone https://github.com/Shravan2krypton/Examora.git
+   cd Examora
    ```
 
 2. **Install dependencies**
@@ -108,12 +130,12 @@ DEALINGS IN THE SOFTWARE.
    ```bash
    # Backend .env
    PORT=5000
-   DATABASE_URL=your_neon_database_url
-   JWT_SECRET=your_jwt_secret
+   DATABASE_URL=postgresql://your_neon_database_url
+   JWT_SECRET=online_exam_system_2024_secure_key_for_authentication
    FRONTEND_URL=http://localhost:3000
    NODE_ENV=development
    
-   # Frontend .env
+   # Frontend .env (optional)
    VITE_API_URL=http://localhost:5000/api
    ```
 
@@ -127,6 +149,10 @@ DEALINGS IN THE SOFTWARE.
    cd frontend
    npm run dev
    ```
+
+5. **Access the application**
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:5000/api
 
 ## 🎯 Features
 
@@ -312,7 +338,28 @@ CREATE TABLE results (
 
 ## 🚀 Deployment
 
-### Environment Variables
+### Vercel Deployment (Recommended)
+
+1. **Deploy to Vercel**
+   ```bash
+   # Install Vercel CLI
+   npm i -g vercel
+   
+   # Deploy
+   vercel --prod
+   ```
+
+2. **Environment Variables on Vercel**
+   ```bash
+   DATABASE_URL=postgresql://neondb_owner:npg_dCP5xmRl8tJg@ep-winter-credit-an6ufc4n-pooler.c-6.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+   JWT_SECRET=online_exam_system_2024_secure_key_for_authentication
+   FRONTEND_URL=https://your-app-name.vercel.app
+   NODE_ENV=production
+   ```
+
+### Manual Deployment
+
+#### Environment Variables
 ```bash
 # Production
 NODE_ENV=production
@@ -327,7 +374,7 @@ JWT_SECRET=your_development_jwt_secret
 FRONTEND_URL=http://localhost:3000
 ```
 
-### Build Process
+#### Build Process
 ```bash
 # Frontend Build
 cd frontend
@@ -337,6 +384,19 @@ npm run build
 cd backend
 npm start
 ```
+
+### 🌐 Live Deployment
+
+**🎉 Successfully deployed on Vercel:** [https://examora-puce.vercel.app/](https://examora-puce.vercel.app/)
+
+Features available in production:
+- ✅ User authentication (Faculty/Student)
+- ✅ Exam creation and management
+- ✅ Real-time exam taking
+- ✅ PDF question bank uploads
+- ✅ Results and analytics
+- ✅ Responsive design
+- ✅ Dark mode support
 
 ## 🤝 Contributing
 
@@ -395,7 +455,7 @@ For support, please email: support@examora.com
 
 ## 📝 Changelog
 
-### v1.0.0 (2024-03-18)
+### v1.0.0 (2024-04-30)
 - ✅ Initial release
 - ✅ Basic authentication system
 - ✅ Exam creation and management
@@ -405,7 +465,19 @@ For support, please email: support@examora.com
 - ✅ PDF upload support
 - ✅ Dark mode support
 - ✅ Modern UI/UX
+- ✅ Vercel deployment
+- ✅ Production-ready backend API
+- ✅ Neon PostgreSQL integration
+- ✅ Serverless functions
 
 ---
 
+<div align="center">
+
+**🎓 Examora - Transforming Online Education**
+
+[🚀 Live Demo](https://examora-puce.vercel.app/) • [📖 Documentation](#-readme) • [⭐ Star](https://github.com/Shravan2krypton/Examora) • [🍴 Fork](https://github.com/Shravan2krypton/Examora/fork)
+
 **Built with ❤️ by the Examora Team**
+
+</div>
