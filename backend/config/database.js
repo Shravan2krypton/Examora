@@ -54,17 +54,20 @@ const createTables = async () => {
       )
     `);
 
-    // Questions table
+    // Updated Questions table - linked to question banks instead of directly to exams
     await pool.query(`
       CREATE TABLE IF NOT EXISTS questions (
         id SERIAL PRIMARY KEY,
-        exam_id INTEGER REFERENCES exams(id) ON DELETE CASCADE,
+        question_bank_id INTEGER REFERENCES question_banks(id) ON DELETE CASCADE,
         question_text TEXT NOT NULL,
         option_a VARCHAR(255) NOT NULL,
         option_b VARCHAR(255) NOT NULL,
         option_c VARCHAR(255) NOT NULL,
         option_d VARCHAR(255) NOT NULL,
         correct_answer VARCHAR(1) NOT NULL CHECK (correct_answer IN ('A', 'B', 'C', 'D')),
+        subject VARCHAR(100),
+        difficulty VARCHAR(20) DEFAULT 'medium' CHECK (difficulty IN ('easy', 'medium', 'hard')),
+        created_by INTEGER REFERENCES users(id) ON DELETE CASCADE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
