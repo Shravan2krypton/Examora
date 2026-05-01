@@ -3,12 +3,32 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 export default async function handler(req, res) {
+  // Enable CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const { name, email, password, role } = req.body;
+    console.log('Registration attempt started');
+    
+    // Parse request body
+    let body;
+    try {
+      body = JSON.parse(req.body);
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError);
+      return res.status(400).json({ error: 'Invalid JSON in request body' });
+    }
+
+    const { name, email, password, role } = body;
 
     if (!name || !email || !password || !role) {
       return res.status(400).json({ error: 'All fields are required' });
@@ -17,6 +37,8 @@ export default async function handler(req, res) {
     if (!['student', 'faculty'].includes(role)) {
       return res.status(400).json({ error: 'Invalid role' });
     }
+
+    console.log('Checking if user exists:', email);
 
     // Check if user already exists
     const existingUser = await pool.query(
@@ -28,6 +50,8 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'User already exists' });
     }
 
+    console.log('Creating new user:', email, role);
+
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -38,6 +62,7 @@ export default async function handler(req, res) {
     );
 
     const user = result.rows[0];
+    console.log('User created successfully:', user.email);
 
     // Generate JWT token
     const token = jwt.sign(
@@ -49,6 +74,8 @@ export default async function handler(req, res) {
     // Return user data without password
     const { password: _, ...userData } = user;
 
+    console.log('Registration successful for:', userData.email);
+
     res.status(201).json({
       message: 'Registration successful',
       token,
@@ -56,6 +83,9 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error('Registration error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ 
+      error: 'Internal server error',
+      details: error.message 
+    });
   }
 }
