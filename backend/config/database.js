@@ -120,19 +120,34 @@ const createTables = async () => {
         id SERIAL PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
         description TEXT,
-        file_path VARCHAR(255) NOT NULL,
+        subject VARCHAR(100),
         uploaded_by INTEGER REFERENCES users(id) ON DELETE CASCADE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
 
+    // Exam questions table - links exams with questions from question banks
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS exam_questions (
+        id SERIAL PRIMARY KEY,
+        exam_id INTEGER REFERENCES exams(id) ON DELETE CASCADE,
+        question_id INTEGER REFERENCES questions(id) ON DELETE CASCADE,
+        question_number INTEGER NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(exam_id, question_id)
+      )
+    `);
+
     // Create indexes for better performance
     await pool.query('CREATE INDEX IF NOT EXISTS idx_exams_created_by ON exams(created_by_id)');
-    await pool.query('CREATE INDEX IF NOT EXISTS idx_questions_exam_id ON questions(exam_id)');
+    await pool.query('CREATE INDEX IF NOT EXISTS idx_questions_question_bank ON questions(question_bank_id)');
+    await pool.query('CREATE INDEX IF NOT EXISTS idx_questions_subject ON questions(subject)');
     await pool.query('CREATE INDEX IF NOT EXISTS idx_exam_attempts_exam_student ON exam_attempts(exam_id, student_id)');
     await pool.query('CREATE INDEX IF NOT EXISTS idx_answers_attempt ON answers(attempt_id)');
     await pool.query('CREATE INDEX IF NOT EXISTS idx_results_exam_student ON results(exam_id, student_id)');
     await pool.query('CREATE INDEX IF NOT EXISTS idx_results_exam_score ON results(exam_id, score DESC)');
+    await pool.query('CREATE INDEX IF NOT EXISTS idx_exam_questions_exam ON exam_questions(exam_id)');
+    await pool.query('CREATE INDEX IF NOT EXISTS idx_exam_questions_question ON exam_questions(question_id)');
 
     console.log('Database tables created/verified successfully');
   } catch (error) {

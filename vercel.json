@@ -9,6 +9,15 @@
     "api/auth/register.js": {
       "maxDuration": 10
     },
+    "api/exams/create-simple.js": {
+      "maxDuration": 30
+    },
+    "api/exams/question-counts.js": {
+      "maxDuration": 10
+    },
+    "api/questions/bank/questionBankId.js": {
+      "maxDuration": 15
+    },
     "api/health.js": {
       "maxDuration": 10
     },
@@ -27,6 +36,18 @@
     {
       "source": "/api/auth/register",
       "destination": "/api/auth/register.js"
+    },
+    {
+      "source": "/api/exams/create-simple",
+      "destination": "/api/exams/create-simple.js"
+    },
+    {
+      "source": "/api/exams/question-counts",
+      "destination": "/api/exams/question-counts.js"
+    },
+    {
+      "source": "/api/questions/bank/:questionBankId",
+      "destination": "/api/questions/bank/questionBankId.js"
     },
     {
       "source": "/health",
