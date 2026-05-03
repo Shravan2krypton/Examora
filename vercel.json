@@ -12,13 +12,20 @@
       "destination": "/api/index.js"
     },
     {
-      "source": "/((?!api|uploads).*)",
+      "source": "/test-auth",
+      "destination": "/api/test-auth.js"
+    },
+    {
+      "source": "/((?!api|uploads|test-auth).*)",
       "destination": "/frontend/$1"
     }
   ],
   "functions": {
     "api/index.js": {
       "maxDuration": 30
+    },
+    "api/test-auth.js": {
+      "maxDuration": 15
     }
   }
 }
