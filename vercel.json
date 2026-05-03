@@ -2,74 +2,17 @@
   "buildCommand": "cd frontend && npm run build",
   "outputDirectory": "frontend/dist",
   "installCommand": "cd frontend && npm install && cd ../backend && npm install",
-  "functions": {
-    "api/auth/login.js": {
-      "maxDuration": 10
-    },
-    "api/auth/register.js": {
-      "maxDuration": 10
-    },
-    "api/exams/create-simple.js": {
-      "maxDuration": 30
-    },
-    "api/exams/question-counts.js": {
-      "maxDuration": 10
-    },
-    "api/questions/bank/questionBankId.js": {
-      "maxDuration": 15
-    },
-    "api/debug/auth.js": {
-      "maxDuration": 15
-    },
-    "api/health.js": {
-      "maxDuration": 10
-    },
-    "api/seed.js": {
-      "maxDuration": 10
-    },
-    "api/test.js": {
-      "maxDuration": 10
-    }
-  },
   "rewrites": [
     {
-      "source": "/api/auth/login",
-      "destination": "/api/auth/login.js"
+      "source": "/api/(.*)",
+      "destination": "/backend/server.js"
     },
     {
-      "source": "/api/auth/register",
-      "destination": "/api/auth/register.js"
+      "source": "/uploads/(.*)",
+      "destination": "/backend/server.js"
     },
     {
-      "source": "/api/exams/create-simple",
-      "destination": "/api/exams/create-simple.js"
-    },
-    {
-      "source": "/api/exams/question-counts",
-      "destination": "/api/exams/question-counts.js"
-    },
-    {
-      "source": "/api/questions/bank/:questionBankId",
-      "destination": "/api/questions/bank/questionBankId.js"
-    },
-    {
-      "source": "/api/debug/auth",
-      "destination": "/api/debug/auth.js"
-    },
-    {
-      "source": "/health",
-      "destination": "/api/health.js"
-    },
-    {
-      "source": "/seed",
-      "destination": "/api/seed.js"
-    },
-    {
-      "source": "/test",
-      "destination": "/api/test.js"
-    },
-    {
-      "source": "/((?!api|uploads|health|seed|test).*)",
+      "source": "/((?!api|uploads).*)",
       "destination": "/frontend/$1"
     }
   ]
