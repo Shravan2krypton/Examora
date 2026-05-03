@@ -16,7 +16,11 @@
       "destination": "/api/test-auth.js"
     },
     {
-      "source": "/((?!api|uploads|test-auth).*)",
+      "source": "/test-simple",
+      "destination": "/api/test-simple.js"
+    },
+    {
+      "source": "/((?!api|uploads|test-auth|test-simple).*)",
       "destination": "/frontend/$1"
     }
   ],
@@ -26,6 +30,9 @@
     },
     "api/test-auth.js": {
       "maxDuration": 15
+    },
+    "api/test-simple.js": {
+      "maxDuration": 10
     }
   }
 }
