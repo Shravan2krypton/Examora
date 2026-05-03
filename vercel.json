@@ -1,59 +1,72 @@
 {
-  "buildCommand": "cd frontend && npm run build",
-  "outputDirectory": "frontend/dist",
-  "installCommand": "cd frontend && npm install && cd ../backend && npm install",
-  "rewrites": [
+  "version": 2,
+  "name": "examora",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "regions": ["sin1"],
+  "functions": {
+    "app/api/**/*.ts": {
+      "maxDuration": 30
+    }
+  },
+  "headers": [
     {
       "source": "/api/(.*)",
-      "destination": "/api/index.js"
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=60, stale-while-revalidate=300"
+        }
+      ]
     },
     {
       "source": "/uploads/(.*)",
-      "destination": "/api/index.js"
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
-      "source": "/test-auth",
-      "destination": "/api/test-auth.js"
-    },
-    {
-      "source": "/test-simple",
-      "destination": "/api/test-simple.js"
-    },
-    {
-      "source": "/test-db",
-      "destination": "/api/test-db.js"
-    },
-    {
-      "source": "/test-final",
-      "destination": "/api/test-final.js"
-    },
-    {
-      "source": "/test-login",
-      "destination": "/api/test-login.js"
-    },
-    {
-      "source": "/((?!api|uploads|test-auth|test-simple|test-db|test-final|test-login).*)",
-      "destination": "/frontend/$1"
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
     }
   ],
-  "functions": {
-    "api/index.js": {
-      "maxDuration": 30
+  "rewrites": [
+    {
+      "source": "/api/question-banks/(.*)",
+      "destination": "/api/question-banks/$1"
     },
-    "api/test-auth.js": {
-      "maxDuration": 15
-    },
-    "api/test-simple.js": {
-      "maxDuration": 10
-    },
-    "api/test-db.js": {
-      "maxDuration": 15
-    },
-    "api/test-final.js": {
-      "maxDuration": 15
-    },
-    "api/test-login.js": {
-      "maxDuration": 10
+    {
+      "source": "/api/leaderboard/(.*)",
+      "destination": "/api/leaderboard/$1"
     }
+  ],
+  "env": {
+    "NEXTAUTH_URL": "https://examora.vercel.app",
+    "NEXTAUTH_SECRET": "@nextauth_secret",
+    "JWT_SECRET": "@jwt_secret",
+    "DATABASE_URL": "@database_url",
+    "NODE_ENV": "production"
   }
 }

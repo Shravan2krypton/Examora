@@ -1,0 +1,17 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://examora.vercel.app/sitemap.xml
+
+# Block API endpoints
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /uploads/
+
+# Allow specific public paths
+Allow: /login
+Allow: /leaderboard
+Allow: /
