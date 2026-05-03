@@ -25,10 +25,18 @@ export default function Login() {
       login(data.token, data.user);
       navigate(data.user.role === 'faculty' ? '/faculty' : '/student');
     } catch (err) {
-      const msg =
-        err.response?.data?.error ||
-        (err.code === 'ERR_NETWORK' ? 'Cannot reach backend. Start backend server on port 5000.' : null) ||
-        'Login failed.';
+      let msg = 'Login failed.';
+      
+      if (err.response?.data?.error) {
+        msg = typeof err.response.data.error === 'string' 
+          ? err.response.data.error 
+          : err.response.data.error.message || 'Login failed.';
+      } else if (err.code === 'ERR_NETWORK') {
+        msg = 'Cannot reach backend. Please check your internet connection.';
+      } else if (err.message) {
+        msg = err.message;
+      }
+      
       setError(msg);
     } finally {
       setLoading(false);

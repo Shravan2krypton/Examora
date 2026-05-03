@@ -54,23 +54,72 @@ const createTables = async () => {
       )
     `);
 
-    // Updated Questions table - linked to question banks instead of directly to exams
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS questions (
-        id SERIAL PRIMARY KEY,
-        question_bank_id INTEGER REFERENCES question_banks(id) ON DELETE CASCADE,
-        question_text TEXT NOT NULL,
-        option_a VARCHAR(255) NOT NULL,
-        option_b VARCHAR(255) NOT NULL,
-        option_c VARCHAR(255) NOT NULL,
-        option_d VARCHAR(255) NOT NULL,
-        correct_answer VARCHAR(1) NOT NULL CHECK (correct_answer IN ('A', 'B', 'C', 'D')),
-        subject VARCHAR(100),
-        difficulty VARCHAR(20) DEFAULT 'medium' CHECK (difficulty IN ('easy', 'medium', 'hard')),
-        created_by INTEGER REFERENCES users(id) ON DELETE CASCADE,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      )
+    // Check if questions table exists and what schema it has
+    const questionsTableCheck = await pool.query(`
+      SELECT column_name, data_type 
+      FROM information_schema.columns 
+      WHERE table_name = 'questions'
+      ORDER BY ordinal_position
     `);
+
+    // If questions table doesn't exist, create it with new schema
+    if (questionsTableCheck.rows.length === 0) {
+      await pool.query(`
+        CREATE TABLE questions (
+          id SERIAL PRIMARY KEY,
+          exam_id INTEGER REFERENCES exams(id) ON DELETE CASCADE,
+          question_text TEXT NOT NULL,
+          option_a VARCHAR(255) NOT NULL,
+          option_b VARCHAR(255) NOT NULL,
+          option_c VARCHAR(255) NOT NULL,
+          option_d VARCHAR(255) NOT NULL,
+          correct_answer VARCHAR(1) NOT NULL CHECK (correct_answer IN ('A', 'B', 'C', 'D')),
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+      `);
+    } else {
+      // Check if we need to migrate from old schema to new schema
+      const hasExamId = questionsTableCheck.rows.some(col => col.column_name === 'exam_id');
+      const hasQuestionBankId = questionsTableCheck.rows.some(col => col.column_name === 'question_bank_id');
+      
+      if (hasExamId && !hasQuestionBankId) {
+        console.log('Migrating questions table from old schema to new schema...');
+        
+        // Add new columns for question bank support
+        await pool.query(`
+          ALTER TABLE questions 
+          ADD COLUMN IF NOT EXISTS question_bank_id INTEGER,
+          ADD COLUMN IF NOT EXISTS subject VARCHAR(100),
+          ADD COLUMN IF NOT EXISTS difficulty VARCHAR(20) DEFAULT 'medium',
+          ADD COLUMN IF NOT EXISTS created_by INTEGER REFERENCES users(id) ON DELETE CASCADE
+        `);
+        
+        // Create exam_questions table if it doesn't exist
+        await pool.query(`
+          CREATE TABLE IF NOT EXISTS exam_questions (
+            id SERIAL PRIMARY KEY,
+            exam_id INTEGER REFERENCES exams(id) ON DELETE CASCADE,
+            question_id INTEGER REFERENCES questions(id) ON DELETE CASCADE,
+            question_number INTEGER NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(exam_id, question_id)
+          )
+        `);
+        
+        // Migrate existing exam-question relationships
+        const existingQuestions = await pool.query('SELECT * FROM questions WHERE exam_id IS NOT NULL');
+        
+        for (const question of existingQuestions.rows) {
+          await pool.query(`
+            INSERT INTO exam_questions (exam_id, question_id, question_number)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (exam_id, question_id) DO NOTHING
+          `, [question.exam_id, question.id, 1]);
+        }
+        
+        console.log('Migration completed successfully');
+      }
+    }
 
     // Exam attempts table
     await pool.query(`
